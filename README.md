@@ -51,5 +51,5 @@ Uygulamalar menüsünden **SearchPars**'ı açın. Örnek sorgular:
 Pardus Nedir
 Bluetooth aç
 Bugünkü dolar kuru
-Ali Koç kimdir?
+Ali Koç ?
 ```
