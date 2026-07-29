@@ -27,7 +27,7 @@ döviz kurlarını ve yerel yapay zekâ cevaplarını tek pencerede birleştirir
 
 1. [En son SearchPars sürümünü](https://github.com/techasl7585/searchpars/releases/latest)
    açın.
-2. **Assets** bölümünden `SearchPars_0.4.2_Pardus.zip` dosyasını indirin.
+2. **Assets** bölümünden `SearchPars_0.4.3_Pardus.zip` dosyasını indirin.
 3. ZIP dosyasına sağ tıklayıp **Buraya çıkart** seçeneğini kullanın.
 4. Çıkan klasörde terminal açın.
 5. Kurucuyu çalıştırın:
@@ -49,8 +49,13 @@ Model indirme ilerlemesi terminalde görünür ve model doğrulanmadan kurulum
 tamamlandı mesajı verilmez. Model yaklaşık 3,4 GB olduğu için ilk kurulum
 internet hızına göre zaman alabilir.
 
+Bağlantı kesilirse Ollama indirmesinin tamamlanan bölümü
+`/var/cache/searchpars` içinde korunur. Kurucu otomatik olarak tekrar dener;
+kurulum kapatılırsa `sudo /opt/searchpars/setup-local-ai.sh` komutu indirmeyi
+kaldığı yerden sürdürür. Model indirmesi de kesintiden sonra tekrar denenir.
+
 > GitHub'daki **Code → Download ZIP** kaynak koddur. Son kullanıcı kurulumu için
-> Releases bölümündeki `SearchPars_0.4.2_Pardus.zip` dosyasını indirin.
+> Releases bölümündeki `SearchPars_0.4.3_Pardus.zip` dosyasını indirin.
 
 ## Kullanım
 

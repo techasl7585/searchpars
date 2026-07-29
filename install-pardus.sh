@@ -45,6 +45,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libgtk-3-bin \
   ca-certificates \
   curl \
+  wget \
+  zstd \
   desktop-file-utils \
   poppler-utils \
   xdg-utils
