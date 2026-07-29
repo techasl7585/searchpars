@@ -1,0 +1,17 @@
+[Unit]
+Description=SearchPars yerel yapay zeka kurulumu
+Documentation=https://github.com/techasl7585/searchpars
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=!/var/lib/searchpars/ai-ready
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStart=/opt/searchpars/setup-local-ai-system.sh
+Restart=on-failure
+RestartSec=60
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

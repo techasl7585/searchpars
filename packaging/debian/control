@@ -1,0 +1,12 @@
+Package: searchpars
+Version: @VERSION@
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: techasl7585
+Depends: python3 (>= 3.11), python3-gi, gir1.2-gtk-3.0, libgtk-3-bin, ca-certificates, curl, desktop-file-utils, poppler-utils, xdg-utils, systemd
+Homepage: https://github.com/techasl7585/searchpars
+Description: Pardus için yapay zekâ destekli birleşik arama
+ SearchPars; yerel dosya ve uygulama aramasını, web sonuçlarını,
+ güncel bilgileri ve Ollama tabanlı yerel yapay zekâ cevaplarını
+ tek bir masaüstü arayüzünde birleştirir.

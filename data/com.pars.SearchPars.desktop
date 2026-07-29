@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SearchPars
+Comment=Pardus için yapay zekâ destekli dosya ve uygulama araması
+Exec=searchpars
+Icon=searchpars
+Terminal=false
+Categories=Utility;System;
+Keywords=arama;yapay zeka;dosya;uygulama;search;AI;
+StartupNotify=true

@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - VERSION
+      - .github/workflows/release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Debian paketini üret
+        run: |
+          chmod +x scripts/build-deb.sh
+          ./scripts/build-deb.sh
+
+      - name: Sürüm ve sağlama dosyasını hazırla
+        id: version
+        run: |
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          (
+            cd dist
+            sha256sum *.deb > SHA256SUMS
+          )
+
+      - name: GitHub Release oluştur
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: SearchPars v${{ steps.version.outputs.version }}
+          body: |
+            Pardus 25 x86_64 için kurulabilir SearchPars paketi.
+
+            Kurulum:
+            1. `SearchPars_${{ steps.version.outputs.version }}_amd64.deb` dosyasını indirin.
+            2. Dosyaya çift tıklayıp Pardus Paket Kurucu ile kurun.
+
+            Terminal seçeneği:
+            `sudo apt install ./SearchPars_${{ steps.version.outputs.version }}_amd64.deb`
+
+            Gerekli Pardus bağımlılıkları otomatik kurulur. Ollama ve
+            qwen3.5:4b modeli kurulumdan sonra arka planda hazırlanır.
+          files: |
+            dist/*.deb
+            dist/SHA256SUMS

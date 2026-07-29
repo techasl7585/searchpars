@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+export PYTHONPATH="/opt/searchpars${PYTHONPATH:+:${PYTHONPATH}}"
+exec /usr/bin/python3 /opt/searchpars/searchpars-launcher "$@"
