@@ -29,6 +29,11 @@ jobs:
       - name: Kaynak kodu al
         uses: actions/checkout@v4
 
+      - name: Testleri çalıştır
+        run: |
+          bash -n kur.sh install-pardus.sh setup-local-ai.sh uninstall.sh scripts/build-zip.sh
+          PYTHONPATH=. python3 -m unittest discover -s tests -v
+
       - name: Terminal kurulum ZIP'ini üret
         run: |
           chmod +x scripts/build-zip.sh
@@ -54,8 +59,9 @@ jobs:
             3. Çıkan klasörde terminal açıp `./kur.sh` komutunu çalıştırın.
 
             Kurucu gerekli Pardus bağımlılıklarını, Ollama'yı ve `qwen3.5:4b`
-            modelini terminalde sırayla kurar. Model doğrulanmadan kurulum
-            tamamlandı mesajı verilmez.
+            modelini terminalde sırayla kurar. Model indirmesi bağlantı
+            kesildiğinde kalıcı dosyadan devam eder. Model SHA-256 ile
+            doğrulanmadan kurulum tamamlandı mesajı verilmez.
           files: |
             dist/*.zip
             dist/SHA256SUMS

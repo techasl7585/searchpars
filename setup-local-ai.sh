@@ -2,6 +2,8 @@
 set -euo pipefail
 
 MODEL="${SEARCHPARS_MODEL:-qwen3.5:4b}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MODEL_INSTALLER="${SEARCHPARS_MODEL_INSTALLER:-${SCRIPT_DIR}/searchpars/model_installer.py}"
 OLLAMA_ARCHIVE_URL="https://ollama.com/download/ollama-linux-amd64.tar.zst"
 INSTALL_PREFIX="${SEARCHPARS_OLLAMA_PREFIX:-/usr/local}"
 CACHE_DIR="${SEARCHPARS_CACHE_DIR:-/var/cache/searchpars}"
@@ -23,7 +25,7 @@ if ! command -v systemctl >/dev/null 2>&1; then
 fi
 
 missing_tools=()
-for tool in wget zstd tar; do
+for tool in curl wget zstd tar python3; do
   if ! command -v "${tool}" >/dev/null 2>&1; then
     missing_tools+=("${tool}")
   fi
@@ -31,7 +33,7 @@ done
 if [[ "${#missing_tools[@]}" -gt 0 ]]; then
   echo "[SearchPars] İndirme araçları kuruluyor: ${missing_tools[*]}"
   apt-get update
-  DEBIAN_FRONTEND=noninteractive apt-get install -y wget zstd tar
+  DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget zstd tar python3
 fi
 
 if command -v ollama >/dev/null 2>&1; then
@@ -164,23 +166,20 @@ fi
 
 echo
 echo "[SearchPars] ${MODEL} modeli indiriliyor"
-echo "[SearchPars] Bağlantı kesilirse model indirmesi otomatik tekrar denenecek."
-model_ready=0
-for attempt in $(seq 1 10); do
-  echo "[SearchPars] Model indirme denemesi ${attempt}/10"
-  if "${OLLAMA_BIN}" pull "${MODEL}"; then
-    model_ready=1
-    break
+if "${OLLAMA_BIN}" show "${MODEL}" >/dev/null 2>&1; then
+  echo "[SearchPars] Model zaten kurulu; yeniden indirilmeyecek."
+else
+  if [[ ! -f "${MODEL_INSTALLER}" ]]; then
+    echo "[SearchPars] Kesintiye dayanıklı model indiricisi bulunamadı:" >&2
+    echo "  ${MODEL_INSTALLER}" >&2
+    exit 1
   fi
-  echo "[SearchPars] Model indirmesi kesildi; 10 saniye sonra yeniden denenecek."
-  sleep 10
-done
-
-if [[ "${model_ready}" -ne 1 ]]; then
-  echo "[SearchPars] Model indirilemedi; indirilen parçalar korunuyor." >&2
-  echo "Bağlantı geldiğinde bu komutu yeniden çalıştırın:" >&2
-  echo "  sudo /opt/searchpars/setup-local-ai.sh" >&2
-  exit 1
+  echo "[SearchPars] Her indirilen bayt kalıcı olarak kaydedilecek."
+  echo "[SearchPars] Bağlantı kesilirse gerçek yüzde geriye dönmeden devam edecek."
+  python3 "${MODEL_INSTALLER}" \
+    --model "${MODEL}" \
+    --models-dir "${OLLAMA_HOME}/.ollama/models" \
+    --owner "${SERVICE_USER}"
 fi
 
 echo "[SearchPars] Model doğrulanıyor"
