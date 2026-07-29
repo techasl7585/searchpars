@@ -27,9 +27,9 @@ döviz kurlarını ve yerel yapay zekâ cevaplarını tek pencerede birleştirir
 
 1. [En son SearchPars sürümünü](https://github.com/techasl7585/searchpars/releases/latest)
    açın.
-2. **Assets** bölümünden `SearchPars_0.4.0_Pardus.zip` dosyasını indirin.
+2. **Assets** bölümünden `SearchPars_0.4.1_Pardus.zip` dosyasını indirin.
 3. ZIP dosyasına sağ tıklayıp **Buraya çıkart** seçeneğini kullanın.
-4. Çıkan `SearchPars-0.4.0` klasöründe terminal açın.
+4. Çıkan `SearchPars-0.4.1` klasöründe terminal açın.
 5. Kurucuyu çalıştırın:
 
 ```text
@@ -50,7 +50,7 @@ tamamlandı mesajı verilmez. Model yaklaşık 3,4 GB olduğu için ilk kurulum
 internet hızına göre zaman alabilir.
 
 > GitHub'daki **Code → Download ZIP** kaynak koddur. Son kullanıcı kurulumu için
-> Releases bölümündeki `SearchPars_0.4.0_Pardus.zip` dosyasını indirin.
+> Releases bölümündeki `SearchPars_0.4.1_Pardus.zip` dosyasını indirin.
 
 ## Kullanım
 

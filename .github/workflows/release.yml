@@ -7,6 +7,15 @@ on:
     paths:
       - VERSION
       - .github/workflows/release.yml
+      - README.md
+      - kur.sh
+      - install-pardus.sh
+      - setup-local-ai.sh
+      - uninstall.sh
+      - bin/**
+      - data/**
+      - searchpars/**
+      - scripts/build-zip.sh
   workflow_dispatch:
 
 permissions:
