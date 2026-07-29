@@ -20,20 +20,16 @@ jobs:
       - name: Kaynak kodu al
         uses: actions/checkout@v4
 
-      - name: Debian paketini üret
+      - name: Terminal kurulum ZIP'ini üret
         run: |
-          chmod +x scripts/build-deb.sh
-          ./scripts/build-deb.sh
+          chmod +x scripts/build-zip.sh
+          ./scripts/build-zip.sh
 
-      - name: Sürüm ve sağlama dosyasını hazırla
+      - name: Sürümü hazırla
         id: version
         run: |
           VERSION="$(tr -d '[:space:]' < VERSION)"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-          (
-            cd dist
-            sha256sum *.deb > SHA256SUMS
-          )
 
       - name: GitHub Release oluştur
         uses: softprops/action-gh-release@v2
@@ -41,17 +37,16 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: SearchPars v${{ steps.version.outputs.version }}
           body: |
-            Pardus 25 x86_64 için kurulabilir SearchPars paketi.
+            Pardus 25 x86_64 için terminalden kurulan SearchPars paketi.
 
             Kurulum:
-            1. `SearchPars_${{ steps.version.outputs.version }}_amd64.deb` dosyasını indirin.
-            2. Dosyaya çift tıklayıp Pardus Paket Kurucu ile kurun.
+            1. `SearchPars_${{ steps.version.outputs.version }}_Pardus.zip` dosyasını indirin.
+            2. ZIP'i çıkartın.
+            3. Çıkan klasörde terminal açıp `./kur.sh` komutunu çalıştırın.
 
-            Terminal seçeneği:
-            `sudo apt install ./SearchPars_${{ steps.version.outputs.version }}_amd64.deb`
-
-            Gerekli Pardus bağımlılıkları otomatik kurulur. Ollama ve
-            qwen3.5:4b modeli kurulumdan sonra arka planda hazırlanır.
+            Kurucu gerekli Pardus bağımlılıklarını, Ollama'yı ve `qwen3.5:4b`
+            modelini terminalde sırayla kurar. Model doğrulanmadan kurulum
+            tamamlandı mesajı verilmez.
           files: |
-            dist/*.deb
+            dist/*.zip
             dist/SHA256SUMS

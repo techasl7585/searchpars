@@ -27,23 +27,30 @@ döviz kurlarını ve yerel yapay zekâ cevaplarını tek pencerede birleştirir
 
 1. [En son SearchPars sürümünü](https://github.com/techasl7585/searchpars/releases/latest)
    açın.
-2. **Assets** bölümünden `SearchPars_0.3.0_amd64.deb` dosyasını indirin.
-3. Dosyaya çift tıklayıp Pardus Paket Kurucu ile **Kur** seçeneğini kullanın.
+2. **Assets** bölümünden `SearchPars_0.4.0_Pardus.zip` dosyasını indirin.
+3. ZIP dosyasına sağ tıklayıp **Buraya çıkart** seçeneğini kullanın.
+4. Çıkan `SearchPars-0.4.0` klasöründe terminal açın.
+5. Kurucuyu çalıştırın:
 
-Terminalden kurmak isterseniz:
-
-```bash
-cd ~/İndirilenler
-sudo apt install ./SearchPars_0.3.0_amd64.deb
+```text
+./kur.sh
 ```
 
-Başka bir paket veya geliştirme aracı kurmanız gerekmez. Pardus gerekli sistem
-bağımlılıklarını otomatik kurar. Ollama ve yapay zekâ modeli de kurulumdan sonra
-arka planda hazırlanır. Modelin ilk indirilmesi internet hızına göre birkaç
-dakika sürebilir; bu sırada dosya, uygulama ve web araması kullanılabilir.
+Gerekirse önce dosyaya çalıştırma izni verin:
 
-> GitHub'daki **Code → Download ZIP** seçeneği kaynak koddur ve son kullanıcı
-> kurulumu değildir. Kurulum için Releases bölümündeki `.deb` dosyasını kullanın.
+```text
+chmod +x kur.sh
+./kur.sh
+```
+
+Başka bir paket veya geliştirme aracı kurmanız gerekmez. Kurucu gerekli Pardus
+bağımlılıklarını, Ollama'yı ve `qwen3.5:4b` yapay zekâ modelini sırayla kurar.
+Model indirme ilerlemesi terminalde görünür ve model doğrulanmadan kurulum
+tamamlandı mesajı verilmez. Model yaklaşık 3,4 GB olduğu için ilk kurulum
+internet hızına göre zaman alabilir.
+
+> GitHub'daki **Code → Download ZIP** kaynak koddur. Son kullanıcı kurulumu için
+> Releases bölümündeki `SearchPars_0.4.0_Pardus.zip` dosyasını indirin.
 
 ## Kullanım
 
@@ -62,18 +69,19 @@ Bluetooth'u aç
 
 ## Güncelleme
 
-Yeni sürümün `.deb` dosyasını Releases bölümünden indirip aynı komutla kurun:
+Yeni sürümün ZIP dosyasını Releases bölümünden indirip çıkartın ve kurucuyu
+yeniden çalıştırın:
 
-```bash
-sudo apt install ./SearchPars_YENI_SURUM_amd64.deb
+```text
+./kur.sh
 ```
 
 Kişisel arama indeksi güncelleme sırasında korunur.
 
 ## Kaldırma
 
-```bash
-sudo apt remove searchpars
+```text
+sudo /opt/searchpars/uninstall.sh
 ```
 
 Bu işlem yerel dosya indeksini ve başka uygulamaların da kullanabileceği Ollama
@@ -93,14 +101,14 @@ PYTHONPATH=. python3 -m searchpars.app --rebuild
 PYTHONPATH=. python3 -m searchpars.app --cli "Pardus PDF dosyalarını bul"
 ```
 
-Kurulabilir `.deb` üretmek için:
+Son kullanıcı ZIP paketini üretmek için:
 
 ```bash
-chmod +x scripts/build-deb.sh
-./scripts/build-deb.sh
+chmod +x scripts/build-zip.sh
+./scripts/build-zip.sh
 ```
 
-Paket `dist/` klasöründe oluşturulur.
+ZIP paketi ve SHA256 doğrulama dosyası `dist/` klasöründe oluşturulur.
 
 ## İnternet servisleri ve gizlilik
 
@@ -111,11 +119,10 @@ cevaplar bilgisayarda işlenir.
 
 ## Sorun giderme
 
-Yapay zekâ ilk kurulumunun durumunu görmek için:
+Yapay zekâ modelini yeniden kurmak veya doğrulamak için:
 
-```bash
-systemctl status searchpars-ai-setup.service
-sudo tail -n 50 /var/log/searchpars-ai-setup.log
+```text
+sudo /opt/searchpars/setup-local-ai.sh
 ```
 
 Uygulamayı terminalden başlatıp hata çıktısını görmek için:
