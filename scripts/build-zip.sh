@@ -35,8 +35,8 @@ find "${PACKAGE_DIR}" -type f -name '*.pyc' -delete
 
 rm -f "${ZIP_FILE}" "${DIST_DIR}/SHA256SUMS"
 (
-  cd "${BUILD_DIR}"
-  zip -q -r "${ZIP_FILE}" "SearchPars-${VERSION}"
+  cd "${PACKAGE_DIR}"
+  zip -q -r "${ZIP_FILE}" .
 )
 (
   cd "${DIST_DIR}"

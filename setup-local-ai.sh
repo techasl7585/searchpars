@@ -16,8 +16,18 @@ if ! command -v curl >/dev/null 2>&1; then
   "${SUDO[@]}" apt-get install -y curl
 fi
 
+needs_ollama_install=0
 if ! command -v ollama >/dev/null 2>&1; then
-  echo "[SearchPars] Ollama kuruluyor"
+  needs_ollama_install=1
+elif ! command -v systemctl >/dev/null 2>&1; then
+  needs_ollama_install=1
+elif ! systemctl cat ollama.service >/dev/null 2>&1; then
+  echo "[SearchPars] Ollama komutu bulundu fakat servisi eksik; kurulum onarılıyor."
+  needs_ollama_install=1
+fi
+
+if [[ "${needs_ollama_install}" -eq 1 ]]; then
+  echo "[SearchPars] Ollama kuruluyor/onarılıyor"
   installer="$(mktemp)"
   trap 'rm -f "${installer:-}"' EXIT
   curl --fail --location --show-error --silent \
@@ -35,6 +45,11 @@ fi
 
 if ! command -v systemctl >/dev/null 2>&1; then
   echo "[SearchPars] systemd bulunamadı; Pardus 25 üzerinde kurulum yapın." >&2
+  exit 1
+fi
+
+if ! systemctl cat ollama.service >/dev/null 2>&1; then
+  echo "[SearchPars] Ollama kuruldu fakat ollama.service oluşturulamadı." >&2
   exit 1
 fi
 

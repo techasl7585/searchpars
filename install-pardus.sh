@@ -8,7 +8,7 @@ fail() {
   local exit_code=$?
   echo
   echo "[SearchPars] Kurulum tamamlanamadı (satır ${BASH_LINENO[0]})." >&2
-  echo "İnternet bağlantısını kontrol edip aynı klasörde ./kur.sh komutunu yeniden çalıştırın." >&2
+  echo "Yukarıdaki hata mesajını kontrol edip ./kur.sh komutunu yeniden çalıştırın." >&2
   exit "${exit_code}"
 }
 trap fail ERR
