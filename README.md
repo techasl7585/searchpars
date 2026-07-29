@@ -48,8 +48,8 @@ Uygulamalar menüsünden **SearchPars**'ı açın. Örnek sorgular:
 
 ```text
 19:19 da çektiğim ekran görüntüsü
-Pardus Nedir
+teknofest
 Bluetooth aç
 Bugünkü dolar kuru
-Ali Koç ?
+Ali Koç 
 ```
